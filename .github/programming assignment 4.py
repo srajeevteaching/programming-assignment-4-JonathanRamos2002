@@ -52,6 +52,26 @@ def validate_input(message):
     return return_message
 
 
+def find_points(players_cards):
+    total_points = 0
+    for i in range(len(players_cards)):
+        current_card = players_cards[i]
+        if current_card[0] == "k" or current_card[0] == "q" or current_card[0] == "j":
+            total_points += 10
+        elif current_card[0] == "a":
+            ace_choice = validate_input("What will this card be worth? 1 = one point, 2 = eleven points: ")
+            if ace_choice == 1:
+                total_points += 1
+            elif ace_choice == 2:
+                total_points += 11
+        elif current_card[0] == "1":
+            total_points += 10
+        else:
+            points = int(current_card[0])
+            total_points += points
+    return total_points
+
+
 def main():
     all_cards = []
     dealer_cards = []
@@ -77,8 +97,32 @@ def main():
 
     player_cards = draw_cards(all_cards, player_cards, 2)
     print(player_cards)
+    player_points = find_points(player_cards)
+    print("Player 1 current points: " + str(player_points))
 
-    player_choice = validate_input("would you like to draw again? (1: yes, 2: no):  ")
+    is_valid = False
+    while player_points < 21 and not is_valid:
+        hit_card = validate_input("\nWould you like to draw another card? 1 = yes, 2 = no: ")
+        if hit_card == 1:
+            new_card = all_cards[0]
+            all_cards.pop(0)
+            player_cards.append(new_card)
+            print(player_cards)
+            player_points = find_points(player_cards)
+            print("Player 1 current points: " + str(player_points))
+        elif hit_card == 2:
+            print(player_cards)
+            print("Player 1 Final Points: " + str(player_points))
+            is_valid = True
+
+    if player_points == 21:
+        print("Player one has won, BlackJack!")
+    elif player_points > 21:
+        print("Player one has bust! :( ")
+        exit()
+    elif player_points < 21:
+        print("\nDealers Turn!")
+
 
 
 main()
