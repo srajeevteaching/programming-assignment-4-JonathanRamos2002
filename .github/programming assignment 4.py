@@ -65,7 +65,7 @@ def find_points(players_cards):
         if current_card[0] == "k" or current_card[0] == "q" or current_card[0] == "j":
             total_points += 10
         elif current_card[0] == "a":
-            ace_choice = validate_input("What will this card be worth? 1 = one point, 2 = eleven points: ")
+            ace_choice = validate_input("What will this ace card be worth? 1 = one point, 2 = eleven points: ")
             if ace_choice == 1:
                 total_points += 1
             elif ace_choice == 2:
